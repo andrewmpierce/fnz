@@ -24,7 +24,7 @@ SQL
 
 #conn.exec(create_query)
 #conn.exec(insert_query)
-result = conn.exec("SELECT * FROM users")
-result.each do |row| 
-  puts row
-end
+result = conn.exec("DELETE FROM users")
+# result.each do |row| 
+#   puts row
+# end
