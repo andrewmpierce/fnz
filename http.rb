@@ -1,57 +1,57 @@
 require 'socket'
 require 'pg'
 
-server = TCPServer.new 2000 # Server bound to port 2000
-
-def get_users
-  conn = PG.connect(dbname: 'foo')
-  conn.exec("SELECT * FROM users")
-end
-
-def create_user(params)
-  conn = PG.connect(dbname: 'foo')
-  conn.exec("INSERT INTO users(first_name, last_name) VALUES('#{params["firstname"]}', '#{params["lastname"]}')") 
-  conn.close
-end
-
-def get_params(request)
-  params = {}
-  query_string = request.split("?")[1].split(" ")[0] # strips off the beginning request type and the ending HTTP version
-  fields = query_string.sub('+', ' ') #spaces in the input fields are converted to + signs when sent in the http request. 
-  fields.split("&").each do |field|
-    puts field.split("=")[1]
-    params[field.split("=")[0]] = field.split("=")[1]
+class Server
+  def initialize(port=2000) 
+    @server = TCPServer.new port # Server bound to port 2000 by default
   end
-  params
+
+  def content(html_file)
+    # Right now we are slurping the file (dumping the whole thing into 
+    # memory at once) It's not the most performant, but its works easy 
+    # enough for now
+    File.read html_file
+  end
+
+  def status_header(status_code=200)
+    "HTTP/1.1 #{status_code}\r\n"
+  end
+
+  def content_type_header(type="text/html")
+    "Content-Type: #{type}\r\n"
+  end
+
+  def new_line
+    "\r\n"
+  end
+
+  def process(request)
+    # This is where the magic really happens! This is where we query the fnz
+    # application and get back a request hash. If we were using Rack, this is
+    # where we'd put it.  
+    { 
+      :status_code => 200, 
+      :content_type_header => 'text/html', 
+      :file_to_serve => './public/index.html'
+    }
+  end
+
+  def serve
+    loop do
+      client = @server.accept    # Wait for a client to connect
+      request = client.gets
+
+      response_hash = process(request)
+
+      client.print status_header(response_hash[:status_code])
+      client.print content_type_header(response_hash[:content_type])
+      client.print new_line 
+      client.print content(response_hash[:file_to_serve])
+      client.close
+    end
+  end
 end
 
-form = <<-FORM
-<form>
-  First Name: <br>
-  <input type="text" name="firstname"><br>
-  Last name:<br>
-  <input type="text" name="lastname"><br>
-  <input type="submit" value="Submit">
-</form>
-FORM
 
-loop do
-  client = server.accept    # Wait for a client to connect
-  request = client.gets
-  puts request
-  if request.include? '?'
-    create_user(get_params(request)) 
-  end
-  users = get_users
-
-  client.print "HTTP/1.1 200\r\n"
-  client.print "Content-Type: text/html\r\n"
-  client.print "\r\n"
-  client.puts "<p>The users in the table are:</p>"
-  users.each do |user|
-    client.puts "<p>#{user["first_name"]} #{user["last_name"]}</p>"
-  end
-  client.puts "<br><br><br>"
-  client.puts form
-  client.close
-end
+server = Server.new
+server.serve
