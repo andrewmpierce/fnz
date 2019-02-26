@@ -1,6 +1,7 @@
 require 'socket'
 require 'pg'
 
+# TODO: Can we parallelize this? Seems super possible and super cool
 class Server
   def initialize(port=2000) 
     @server = TCPServer.new port # Server bound to port 2000 by default
