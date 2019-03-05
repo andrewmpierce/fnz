@@ -3,12 +3,12 @@
 # we want to do when that happens. Then somehow when the request is processed
 # by fnz, it will look at the defined routes, find the one that fits and execute
 #
-require_relative './gem/routing.rb' 
+require_relative './gem/fnz.rb' 
 
-r = Routing.new 
-
-r.get './' do 
-  './public/index.html'
+FNZ = Fnz.new do  
+  get './' do 
+    './public/index.html'
+  end
 end
 
 

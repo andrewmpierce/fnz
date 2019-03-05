@@ -1,6 +1,6 @@
 require 'socket'
 require 'pg'
-require_relative './fnz'
+require_relative '../routes'
 
 # I'm kind of floundering in how to keep my fnz app alive and waiting for 
 # requests
@@ -39,8 +39,7 @@ class Server
     # This is where the magic really happens! This is where we query the fnz
     # application and get back a request hash. If we were using Rack, this is
     # where we'd put it.  
-    fnz = Fnz.new
-    response = fnz.request(request)
+    response = FNZ.call
     puts response
     { 
       :status_code => 200, 
