@@ -8,9 +8,10 @@ class Routing
   attr_reader :get_routes
   attr_reader :post_routes
 
-  def initialize
+  def initialize(block)
     @get_routes = {}
     @post_routes = {}
+    instance_eval(&block)
   end
 
   def get(url, &block)

@@ -39,13 +39,7 @@ class Server
     # This is where the magic really happens! This is where we query the fnz
     # application and get back a request hash. If we were using Rack, this is
     # where we'd put it.  
-    response = FNZ.call
-    puts response
-    { 
-      :status_code => 200, 
-      :content_type_header => 'text/html', 
-      :file_to_serve => './public/index.html'
-    }
+    FNZ.request(request)
   end
 
   def serve
