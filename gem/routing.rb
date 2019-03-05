@@ -5,21 +5,19 @@
 
 
 class Routing
+  attr_reader :get_routes
+  attr_reader :post_routes
+
   def initialize
     @get_routes = {}
     @post_routes = {}
   end
 
-  def process_routes
-    file = '../routes.rb'
-
-  end
-
   def get(url, &block)
-    @get_routes[url] = &block
+    @get_routes[url] = block
   end
 
   def post(url, &block)
-    @post_routes[url] = &block
+    @post_routes[url] = block
   end
 end

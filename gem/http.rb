@@ -1,5 +1,14 @@
 require 'socket'
 require 'pg'
+require_relative './fnz'
+
+# I'm kind of floundering in how to keep my fnz app alive and waiting for 
+# requests
+# from the http server. I could just initialize a new app every time a request 
+# comes in, but that seems less than ideal. It seems like I shouldn't need to 
+# read in the routes every time and other kind of redundant info, but maybe that
+# the way to start?
+#
 
 # TODO: Can we parallelize this? Seems super possible and super cool
 class Server
@@ -30,6 +39,9 @@ class Server
     # This is where the magic really happens! This is where we query the fnz
     # application and get back a request hash. If we were using Rack, this is
     # where we'd put it.  
+    fnz = Fnz.new
+    response = fnz.request(request)
+    puts response
     { 
       :status_code => 200, 
       :content_type_header => 'text/html', 
@@ -53,6 +65,3 @@ class Server
   end
 end
 
-
-server = Server.new
-server.serve
