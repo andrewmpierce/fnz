@@ -6,7 +6,7 @@
 require_relative './gem/fnz.rb' 
 
 FNZ = Fnz.new do  
-  get './' do 
+  get '/' do 
     './public/index.html'
   end
 end

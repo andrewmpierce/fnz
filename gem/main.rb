@@ -1,5 +1,6 @@
 require_relative './db.rb'
 require_relative './http.rb'
+require 'fileutils'
 
 class Main 
   def initialize(command)
@@ -7,7 +8,9 @@ class Main
   end
 
   def create_new(project_name)
-    puts 'new'
+    Dir.mkdir('sql') unless Dir.exists?('sql')
+    db = Db.new(project_name)
+    db.create_db
   end
 
   def process_http_request(request)
@@ -17,8 +20,9 @@ class Main
     puts "This will run migrations eventually"
   end
 
-  def touch_migration_file
-   puts 'this will create a migration file eventually'
+  def touch_migration_file(file_name)
+    filename_with_timestamp = unix_timestamp_string +  '-' + file_name + '.sql'
+    FileUtils.touch('sql/' + filename_with_timestamp)
   end
 
   def serve
@@ -27,6 +31,10 @@ class Main
 
   def show_help
     puts "This will be a help thing eventually"
+  end
+
+  private def unix_timestamp_string
+    Time.now.to_i.to_s
   end
 end
 
