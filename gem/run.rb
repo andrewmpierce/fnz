@@ -13,8 +13,7 @@ case command.downcase
   when 'make_migration'
     project.touch_migration_file(arg)
   when 'serve' 
-    server = Server.new()
-    server.serve
+    project.serve
   else
     project.show_help
 end

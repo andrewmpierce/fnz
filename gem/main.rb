@@ -27,6 +27,8 @@ class Main
 
   def serve
     puts 'You now have an application running on port 2000.'
+    server = Server.new()
+    server.serve
   end
 
   def show_help
