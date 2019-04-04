@@ -9,6 +9,7 @@ class Main
 
   def create_new(project_name)
     Dir.mkdir('sql') unless Dir.exists?('sql')
+    FileUtils.touch('migration_log.txt')
     db = Db.new(project_name)
     db.create_db
   end
@@ -17,6 +18,10 @@ class Main
   end
 
   def run_available_migrations
+    # We need to look at all the files in the sql folder, 
+    # see which ones are not present in the migration_log, 
+    # then run the remaining ones in the correct order
+    # by unix timestamp
     puts "This will run migrations eventually"
   end
 
