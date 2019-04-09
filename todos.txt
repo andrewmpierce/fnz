@@ -1,0 +1,14 @@
+Done:
+1) Very basic HTTP server. We could also swap out this one with an open source 
+option and add Rack to sync up pretty easy.
+2) Very basic routing. It's not very intelligent, but will recognize a hard route
+and execute a block. We don't currently handle dynamic routes.
+3) Very basic database connections and migrations. We can create timestamped 
+migrations and execute them. When a project is created we also create the 
+migration.log file which holds our database name and what migrations have been 
+run and at what time. 
+
+TODO: 
+1) Would be nice to do some basic templating. 
+2) Figure out dynamic routes. 
+3) Lots of error handling and general clean up. 

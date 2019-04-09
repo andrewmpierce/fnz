@@ -27,7 +27,6 @@ class Main
     db = Db.new(get_db_name)
     sorted_files.each do |file|
       db.exec_sql(File.read("sql/#{file}"))
-      #execute sql
     end
   end
 
