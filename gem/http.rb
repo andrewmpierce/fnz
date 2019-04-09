@@ -2,14 +2,6 @@ require 'socket'
 require 'pg'
 require_relative '../routes'
 
-# I'm kind of floundering in how to keep my fnz app alive and waiting for 
-# requests
-# from the http server. I could just initialize a new app every time a request 
-# comes in, but that seems less than ideal. It seems like I shouldn't need to 
-# read in the routes every time and other kind of redundant info, but maybe that
-# the way to start?
-#
-
 # TODO: Can we parallelize this? Seems super possible and super cool
 class Server
   def initialize(port=2000) 

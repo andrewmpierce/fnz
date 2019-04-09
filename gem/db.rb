@@ -8,7 +8,7 @@ class Db
   #This should only be run one time when we first create a fnz project
   def create_db
     conn = PG.connect(dbname: 'postgres')
-    @conn.exec("CREATE DATABASE #{@db_name}")
+    conn.exec("CREATE DATABASE #{@db_name}")
   end
 
   def connect
