@@ -12,3 +12,4 @@ TODO:
 1) Would be nice to do some basic templating. 
 2) Figure out dynamic routes. 
 3) Lots of error handling and general clean up. 
+4) Lots of ~magical~ file names that should be encapsulted.
