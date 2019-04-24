@@ -18,7 +18,6 @@ class Main
   end
 
   def run_available_migrations
-    puts "This will run migrations eventually"
     FileUtils.touch('sql/migration.log') unless File.exists?('sql/migration.log')
     all_files = Dir.entries('sql').map { |file| file if !file_exceptions(file) }.compact
     timestamps_already_executed = File.readlines('sql/migration.log').map { |line| line.split('-')[0] }
@@ -27,6 +26,7 @@ class Main
     db = Db.new(get_db_name)
     sorted_files.each do |file|
       db.exec_sql(File.read("sql/#{file}"))
+      File.write('sql/migration.log', "#{file}\n")
     end
   end
 
