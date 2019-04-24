@@ -6,7 +6,9 @@ fnz is a web framework I'm building to help better understand how web
 frameworks work and strengthen my understanding of the web and web 
 applications. 
 
-At completion, it will consist of a basic HTTP server, a routing layer, 
+It's most definitely not complete right now. These docs are 
+aspirational and written to help give me a roadmap. At completion, it will 
+consist of a basic HTTP server, a routing layer, 
 database connection with the ability to run migrations and SQL on the fly,
 a basic templating language, and maybe a very lightweight ORM. 
 
